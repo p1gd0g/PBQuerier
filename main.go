@@ -14,7 +14,7 @@ import (
 )
 
 var KSlice = []interface {
-	XXX_Unmarshal([]byte) error
+	Unmarshal([]byte) error
 }{
 	// Add new proto type here only.
 	&tutorial.Person{},
@@ -51,7 +51,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 
-	err = d.XXX_Unmarshal([]byte(proto))
+	err = d.Unmarshal([]byte(proto))
 	if err != nil {
 		log.Println(err)
 	}
@@ -65,7 +65,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 }
 
 var KMap = map[string]interface {
-	XXX_Unmarshal([]byte) error
+	Unmarshal([]byte) error
 }{}
 
 var KString = []string{}
