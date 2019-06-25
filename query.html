@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script type="text/javascript">
+        function fun() {
+            var x = document.forms["input"]["proto"].value;
+            document.forms["input"]["proto"].value = window.btoa(x);
+        }
+    </script>
+</head>
+
+<body>
+<div style="position: fixed; top: 20%; border: 1px solid red; float: left">
+    <form name="input" method="get">
+        proto: <label>
+            <textarea rows="5" cols="40" name="proto"></textarea>
+        </label><br>
+        {{range .Items}}<label>
+        <input type="radio" name="key" value="{{ . }}">
+    </label>{{ . }}<br>{{else}}
+    <div><strong>no
+            rows</strong></div>{{end}}<br>
+        <input type="submit" value="查询" onclick="fun()">
+    </form>
+</div>
+
+<div style="position: absolute; left: 20%">
+    <pre class="prettyprint">{{.Out}}</pre>
+</div>
+</body>
+
+</html>
