@@ -14,23 +14,23 @@
 </head>
 
 <body>
-<div style="position: fixed; top: 20%; border: 1px solid red; float: left">
-    <form name="input" method="get">
-        proto: <label>
-            <textarea rows="5" cols="40" name="proto"></textarea>
-        </label><br>
-        {{range .Items}}<label>
-        <input type="radio" name="key" value="{{ . }}">
-    </label>{{ . }}<br>{{else}}
-    <div><strong>no
-            rows</strong></div>{{end}}<br>
-        <input type="submit" value="查询" onclick="fun()">
-    </form>
-</div>
+    <div style="position: fixed; top: 20%; border: 1px solid red; float: left">
+        <form name="input" method="get">
+            proto: <label>
+                <textarea rows="5" cols="40" name="proto"></textarea>
+            </label><br>
+            {{range .Items}}<label>
+                <input type="radio" name="key" value="{{ . }}">
+            </label>{{ . }}<br>{{else}}
+            <div><strong>no
+                    rows</strong></div>{{end}}<br>
+            <input type="submit" value="query" onclick="fun()">
+        </form>
+    </div>
 
-<div style="position: absolute; left: 20%">
-    <pre class="prettyprint">{{.Out}}</pre>
-</div>
+    <div style="position: absolute; left: 20%">
+        <pre class="prettyprint">{{.Out}}</pre>
+    </div>
 </body>
 
 </html>

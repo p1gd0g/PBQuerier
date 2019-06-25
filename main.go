@@ -9,13 +9,16 @@ import (
 	"reflect"
 	"sort"
 	"strconv"
+	
+	"PBQuerier/tutorial"
 )
 
 var KSlice = []interface {
-	Unmarshal([]byte) error
+	XXX_Unmarshal([]byte) error
 }{
 	// Add new proto type here only.
-
+	&tutorial.Person{},
+	&tutorial.AddressBook{},
 }
 
 func main() {
@@ -48,7 +51,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 
-	err = d.Unmarshal([]byte(proto))
+	err = d.XXX_Unmarshal([]byte(proto))
 	if err != nil {
 		log.Println(err)
 	}
@@ -62,7 +65,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 }
 
 var KMap = map[string]interface {
-	Unmarshal([]byte) error
+	XXX_Unmarshal([]byte) error
 }{}
 
 var KString = []string{}
