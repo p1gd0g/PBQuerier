@@ -9,16 +9,34 @@ import (
 	"reflect"
 	"sort"
 	"strconv"
-	
+
 	"PBQuerier/tutorial"
 )
 
+// KSlice is the key slice.
 var KSlice = []interface {
 	Unmarshal([]byte) error
 }{
 	// Add new proto type here only.
 	&tutorial.Person{},
 	&tutorial.AddressBook{},
+}
+
+// KMap is the key map.
+var KMap = map[string]interface {
+	Unmarshal([]byte) error
+}{}
+
+// KString is the key string.
+var KString = []string{}
+
+func init() {
+	for _, v := range KSlice {
+		t := reflect.TypeOf(v)
+		KString = append(KString, t.Elem().Name())
+		KMap[t.Elem().Name()] = v
+	}
+	sort.Strings(KString)
 }
 
 func main() {
@@ -35,7 +53,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 	urlVal := req.URL.Query()
 
 	if urlVal.Encode() == "" {
-		Init(w)
+		execute(w, "")
 		return
 	}
 
@@ -61,53 +79,22 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 
-	Execute(w, string(marshalled))
-}
-
-var KMap = map[string]interface {
-	Unmarshal([]byte) error
-}{}
-
-var KString = []string{}
-
-type data struct {
-	Title string
-	Items []string
-	Out   string
-}
-
-func init() {
-	for _, v := range KSlice {
-		t := reflect.TypeOf(v)
-		KString = append(KString, t.Elem().Name())
-		KMap[t.Elem().Name()] = v
-	}
-	sort.Strings(KString)
-}
-
-//Init initiates the web.
-func Init(w http.ResponseWriter) {
-
-	d := data{
-		Title: "My page",
-		Items: KString,
-	}
-
-	parseAndExe(w, d)
+	execute(w, string(marshalled))
 }
 
 // Execute writes the response.
-func Execute(w http.ResponseWriter, out string) {
-	d := data{
+func execute(w http.ResponseWriter, out string) {
+
+	d := struct {
+		Title string
+		Items []string
+		Out   string
+	}{
 		Title: "My page",
 		Items: KString,
 		Out:   out,
 	}
 
-	parseAndExe(w, d)
-}
-
-func parseAndExe(w http.ResponseWriter, d data) {
 	T, err := template.ParseFiles("query.html")
 	if err != nil {
 		log.Println(err)
