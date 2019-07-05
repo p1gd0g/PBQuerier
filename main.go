@@ -16,6 +16,7 @@ import (
 // KSlice is the key slice.
 var KSlice = []interface {
 	Unmarshal([]byte) error
+	Reset()
 }{
 	// Add new proto type here only.
 	&tutorial.Person{},
@@ -25,6 +26,7 @@ var KSlice = []interface {
 // KMap is the key map.
 var KMap = map[string]interface {
 	Unmarshal([]byte) error
+	Reset()
 }{}
 
 // KString is the key string.
@@ -79,6 +81,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 
+	d.Reset()
 	execute(w, string(marshalled))
 }
 
